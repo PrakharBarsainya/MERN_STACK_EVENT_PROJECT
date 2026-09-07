@@ -119,7 +119,7 @@ MERN_STACK_EVENT_PROJECT/
 ├── .gitignore
 ├── package.json
 └── README.md
-
+```
 ---
 
 ## 🧩 Main Components
