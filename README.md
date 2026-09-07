@@ -8,6 +8,18 @@ The application is configured so that the frontend and backend can run together 
 
 ---
 
+## 📌 Project Overview
+
+This project is designed as a simple and modern event management platform for showcasing event planning services and allowing potential customers to contact the service provider.
+
+The website provides a clean user interface with different sections such as Home, Services, About, Contact, and Footer.
+
+The most important full-stack functionality is the **Contact/Inquiry System**. When a user submits the contact form, the frontend sends the information to the backend API. The backend validates the information and stores the inquiry in MongoDB.
+
+This demonstrates the complete communication flow between a React frontend, Express backend, and MongoDB database.
+
+---
+
 ## ✨ Features
 
 - Responsive event management website
@@ -20,9 +32,13 @@ The application is configured so that the frontend and backend can run together 
 - Google Maps integration
 - Contact/inquiry form
 - Frontend and backend validation
+- Email validation
 - Toast notifications for success and errors
 - MongoDB database integration
 - REST API for contact messages
+- Mongoose schema validation
+- CORS configuration
+- Environment variable support
 - Production build using Vite
 - Single-service deployment support
 
@@ -41,25 +57,25 @@ The application is configured so that the frontend and backend can run together 
 
 ### Frontend
 
-- React.js
-- Vite
-- Axios
-- React Router DOM
-- React Scroll
-- React Icons
-- React Hot Toast
-- CSS
+- **React.js** - Component-based user interface
+- **Vite** - Frontend development and production build tool
+- **Axios** - HTTP requests to the backend API
+- **React Router DOM** - Routing support
+- **React Scroll** - Smooth section navigation
+- **React Icons** - Icons used in the interface
+- **React Hot Toast** - Success and error notifications
+- **CSS** - Website styling and responsive design
 
 ### Backend
 
-- Node.js
-- Express.js
-- MongoDB
-- Mongoose
-- CORS
-- Dotenv
-- Validator
-- Nodemon
+- **Node.js** - JavaScript runtime
+- **Express.js** - REST API and server framework
+- **MongoDB** - Database for storing inquiries
+- **Mongoose** - MongoDB object modeling and validation
+- **CORS** - Cross-origin request configuration
+- **Dotenv** - Environment variable management
+- **Validator** - Email validation
+- **Nodemon** - Automatic server restart during development
 
 ---
 
@@ -106,11 +122,57 @@ MERN_STACK_EVENT_PROJECT/
 
 ---
 
+## 🧩 Main Components
+
+### Navbar
+
+Provides the main website navigation:
+
+- Home
+- Services
+- About
+- Contact
+
+It uses smooth scrolling and includes a hamburger menu for smaller screens.
+
+### HeroSection
+
+The main landing section of the website.
+
+It contains the main introduction, event management message, background image, and a **Book Now** button that takes the user to the Contact section.
+
+### Services
+
+Displays the available event planning services using reusable React components and dynamically generated service data.
+
+### About
+
+Provides information about the event management service and the purpose of the business.
+
+### Contact
+
+The main interactive section of the project.
+
+It contains:
+
+- Business contact information
+- Google Maps
+- Contact form
+- Form validation
+- Axios API request
+- Success/error notifications
+
+### Footer
+
+Contains the website branding and newsletter subscription interface.
+
+---
+
 ## 🔄 How the Project Works
 
 The frontend is built with React and provides the complete user interface.
 
-When a visitor fills out the contact form and clicks the Send button, Axios sends the form data to the Express backend.
+When a visitor fills out the contact form and clicks the **Send** button, Axios sends the form data to the Express backend.
 
 The complete flow is:
 
@@ -132,6 +194,40 @@ The contact form sends the following information:
 The backend checks the submitted data, validates it using the Mongoose schema, and stores the message in MongoDB if the data is valid.
 
 After successfully saving the message, the backend sends a success response and the frontend displays a success toast.
+
+If validation fails, the backend returns a meaningful error message and the frontend displays it to the user.
+
+---
+
+## 🔌 API
+
+### Send Message
+
+Endpoint:
+
+POST /api/v1/message/send
+
+Purpose:
+
+Creates and stores a new customer inquiry in MongoDB.
+
+Request body:
+
+{
+  "name": "John Doe",
+  "email": "john@example.com",
+  "subject": "Wedding Planning",
+  "message": "I would like to discuss my wedding event."
+}
+
+Successful response:
+
+{
+  "success": true,
+  "message": "Message Sent Successfully!"
+}
+
+Validation errors return a `400` status, while unexpected server errors return a `500` status.
 
 ---
 
@@ -157,6 +253,8 @@ The backend validates:
 - Subject is required and must contain at least 5 characters.
 - Message is required and must contain at least 10 characters.
 
+This prevents incomplete or incorrectly formatted inquiries from being stored in the database.
+
 ---
 
 ## ⚙️ Environment Variables
@@ -173,13 +271,15 @@ FRONTEND_URL=http://localhost:5173
 
 The actual MongoDB connection string should never be uploaded to GitHub.
 
+For deployment, the environment variables are configured directly in the hosting platform.
+
 ---
 
 ## 🚀 Installation
 
 Clone the repository:
 
-git clone YOUR_GITHUB_REPOSITORY_URL
+git clone https://github.com/PrakharBarsainya/MERN_STACK_EVENT_PROJECT.git
 
 Move into the project:
 
@@ -215,6 +315,8 @@ npm run dev
 
 The frontend runs using the Vite development server.
 
+The frontend and backend can therefore be developed independently while still communicating through the REST API.
+
 ### Production Test
 
 From the project root, create the frontend production build:
@@ -229,23 +331,26 @@ Open:
 
 http://localhost:4000
 
-In production mode, Express serves the React production build from frontend/dist and also handles the backend API.
+In production mode, Express serves the React production build from `frontend/dist` and also handles the backend API.
 
 ---
 
 ## 🌐 Deployment
 
-The project is designed to be deployed as one Render Web Service, so the frontend and backend do not need to be deployed separately.
+The project is designed to be deployed as **one Render Web Service**, so the frontend and backend do not need to be deployed separately.
 
 ### Render Settings
 
 Root Directory:
+
 .
 
 Build Command:
+
 npm run build
 
 Start Command:
+
 npm start
 
 ### Render Environment Variables
@@ -256,13 +361,15 @@ MONGO_URI=your_mongodb_connection_string
 
 Also configure:
 
-FRONTEND_URL=https://YOUR-RENDER-APP.onrender.com
+FRONTEND_URL=https://event-management-nhff.onrender.com
 
-Render provides the PORT value automatically.
+Render provides the `PORT` value automatically.
 
 The production flow is:
 
 User → Render → Express Server → React Frontend / REST API → MongoDB
+
+The same deployed server handles both the React application and backend API, which keeps the deployment simple and avoids maintaining separate frontend and backend hosting services.
 
 ---
 
@@ -270,17 +377,19 @@ User → Render → Express Server → React Frontend / REST API → MongoDB
 
 Sensitive information should never be committed to GitHub.
 
-Recommended .gitignore entries:
+Recommended `.gitignore` entries:
 
 node_modules/
 frontend/node_modules/
 backend/node_modules/
 frontend/dist/
-backend/config/config.env
+backend/config/
 .env
 .env.local
 
 Keep MongoDB credentials, passwords, API keys, and other secrets private.
+
+The production MongoDB connection string is configured through Render environment variables instead of being stored in the GitHub repository.
 
 ---
 
@@ -303,6 +412,24 @@ npm run dev
 npm run build
 npm run lint
 npm run preview
+
+---
+
+## 🧪 Testing
+
+Before deployment, the following functionality was tested:
+
+- Frontend loads correctly
+- Navigation and smooth scrolling work
+- Services are displayed correctly
+- Contact form accepts user information
+- Backend API receives contact requests
+- MongoDB connection works
+- Messages are stored in MongoDB
+- Validation errors are handled
+- Success/error toast notifications work
+- Production build completes successfully
+- Full application works after Render deployment
 
 ---
 
@@ -329,17 +456,17 @@ Possible future improvements include:
 
 ## 🌍 Live Demo
 
-After deployment, add the Render URL here:
+The project is currently deployed and available at:
 
-https://YOUR-RENDER-APP.onrender.com
+https://event-management-nhff.onrender.com
 
 ---
 
 ## 💻 GitHub Repository
 
-Add your GitHub repository URL here:
+Source code is available on GitHub:
 
-https://github.com/YOUR-USERNAME/YOUR-REPOSITORY
+https://github.com/PrakharBarsainya/MERN_STACK_EVENT_PROJECT
 
 ---
 
@@ -351,12 +478,12 @@ MongoDB: ✅ Integrated
 Contact API: ✅ Completed
 Local Testing: ✅ Working
 Production Build: ✅ Working
-Render Deployment: 🚀 Ready
+Render Deployment: ✅ Live
 
 ---
 
 ## 👨‍💻 Author
 
-Prakhar Barsainya
+**Prakhar Barsainya**
 
 Built with the MERN Stack.
