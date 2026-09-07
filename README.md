@@ -81,8 +81,8 @@ This demonstrates the complete communication flow between a React frontend, Expr
 
 ## 📂 Project Structure
 
+```text
 MERN_STACK_EVENT_PROJECT/
-│
 ├── backend/
 │   ├── config/
 │   │   └── config.env
